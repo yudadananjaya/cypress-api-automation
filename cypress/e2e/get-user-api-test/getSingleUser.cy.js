@@ -19,7 +19,7 @@ describe("GET Single Users API Testing", () => {
             expect(response.body.data.avatar).to.equal(requestBody.avatar);
 
             // Log full response body to the console
-            cy.log("Response body: ", response.body);
+            cy.log(JSON.stringify(response.body))
       });
     });
   });
