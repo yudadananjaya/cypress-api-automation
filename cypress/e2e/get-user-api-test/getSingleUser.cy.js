@@ -6,7 +6,7 @@ describe("GET Single Users API Testing", () => {
             last_name: "Weaver",
             avatar: "https://reqres.in/img/faces/2-image.jpg"
         };
-        cy.request("GET", "https://reqres.in/api/users/2")
+        cy.request("GET", "https://reqres.in/api/users/2").as("usersRequest");
         cy.get("@usersRequest").then((users) => {
             expect(users.status).to.eq(200);
             expect(users.body.data.email).to.equal(requestBody.email);
