@@ -1,4 +1,4 @@
-describe("Single Users API Testing", () => {
+describe("GET Single Users API Testing", () => {
     it("fetches users - GET", () => {
         const requestBody = {
             email: "janet.weaver@reqres.in",
@@ -6,7 +6,7 @@ describe("Single Users API Testing", () => {
             last_name: "Weaver",
             avatar: "https://reqres.in/img/faces/2-image.jpg"
         };
-        cy.request("/users/2").as("usersRequest");
+        cy.request("GET", "https://reqres.in/api/users/2")
         cy.get("@usersRequest").then((users) => {
             expect(users.status).to.eq(200);
             expect(response.body.data.email).to.equal(requestBody.email);
