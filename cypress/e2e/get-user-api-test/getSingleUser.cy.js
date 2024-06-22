@@ -7,12 +7,19 @@ describe("GET Single Users API Testing", () => {
             avatar: "https://reqres.in/img/faces/2-image.jpg"
         };
         cy.request("GET", "https://reqres.in/api/users/2").as("usersRequest");
-        cy.get("@usersRequest").then((users) => {
-            expect(users.status).to.eq(200);
-            expect(users.body.data.email).to.equal(requestBody.email);
-            expect(users.body.data.first_name).to.equal(requestBody.first_name);
-            expect(users.body.data.last_name).to.equal(requestBody.last_name);
-            expect(users.body.data.avatar).to.equal(requestBody.avatar);
+        cy.get("@usersRequest").then((response) => {
+
+            // Assert response code
+            expect(response.status).to.eq(200);
+
+            // Assert email, first_name, last_name, and avatar value
+            expect(response.body.data.email).to.equal(requestBody.email);
+            expect(response.body.data.first_name).to.equal(requestBody.first_name);
+            expect(response.body.data.last_name).to.equal(requestBody.last_name);
+            expect(response.body.data.avatar).to.equal(requestBody.avatar);
+
+            // Log full response body to the console
+            cy.log("Response body: ", response.body);
       });
     });
   });
