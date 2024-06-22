@@ -16,7 +16,7 @@ it("login api test", () => {
         cy.log("Authentication token:", response.body.token);
 
         // Log full response body to the console
-        cy.log("Response Body:", response.body);
+        cy.log("Response body:", response.body);
       }
     );
   });
