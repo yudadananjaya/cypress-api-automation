@@ -9,10 +9,10 @@ describe("GET Single Users API Testing", () => {
         cy.request("GET", "https://reqres.in/api/users/2")
         cy.get("@usersRequest").then((users) => {
             expect(users.status).to.eq(200);
-            expect(response.body.data.email).to.equal(requestBody.email);
-            expect(response.body.data.first_name).to.equal(requestBody.first_name);
-            expect(response.body.data.last_name).to.equal(requestBody.last_name);
-            expect(response.body.data.avatar).to.equal(requestBody.avatar);
+            expect(users.body.data.email).to.equal(requestBody.email);
+            expect(users.body.data.first_name).to.equal(requestBody.first_name);
+            expect(users.body.data.last_name).to.equal(requestBody.last_name);
+            expect(users.body.data.avatar).to.equal(requestBody.avatar);
       });
     });
   });
