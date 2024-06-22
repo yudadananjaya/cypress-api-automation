@@ -13,10 +13,10 @@ it("login api test", () => {
         cy.wrap(response.body.token).as("authToken");
   
         // Log the token to the console
-        cy.log("Authentication token:", response.body.token);
+        cy.log("Authentication token: ", response.body.token);
 
         // Log full response body to the console
-        cy.log("Response body:", response.body);
+        cy.log("Response body: ", response.body);
       }
     );
   });
