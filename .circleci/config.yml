@@ -13,11 +13,6 @@ jobs:
     steps:
       - checkout
 
-      # Install Xvfb and necessary dependencies
-      - run:
-          name: Update dependencies
-          command: sudo apt-get update
-
       # Install Cypress
       - run:
           name: Install Cypress
