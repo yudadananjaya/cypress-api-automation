@@ -3,7 +3,7 @@ version: 2.1
 executors:
   cypress-executor:
     docker:
-      - image: cypress/base:10
+      - image: cypress/base:node12.18.3
 
 jobs:
   install:
