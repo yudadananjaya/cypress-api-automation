@@ -1,36 +1,53 @@
 version: 2.1
 
-jobs:
-  build:
+executors:
+  cypress-executor:
     docker:
-      - image: cypress/base:10 # Adjust the Cypress base image version as per your project requirements
-    working_directory: ~/repo
+      - image: cypress/base:latest
+        environment:
+          DISPLAY: ":99"
 
+jobs:
+  install:
+    executor: cypress-executor
     steps:
       - checkout
-
-      # Install Xvfb and other necessary dependencies
       - run:
-          name: Install Dependencies
+          name: Install Xvfb and dependencies
           command: |
             apt-get update
             apt-get install -y xvfb libgtk-3-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+            npm install
 
-      # Start Xvfb and set DISPLAY
+  test:
+    executor: cypress-executor
+    steps:
+      - checkout
       - run:
           name: Start Xvfb
           command: |
             Xvfb :99 -screen 0 1920x1080x24 &
             export DISPLAY=:99
-
-      # Install Cypress and run tests
       - run:
-          name: Run Cypress Tests
-          command: |
-            npm install
-            npm run cypress:run
-
-      # Store Cypress test results as artifacts
+          name: Install Cypress
+          command: npm install cypress --save-dev
+      - run:
+          name: Run Cypress tests
+          command: npm run cypress:run
       - store_artifacts:
           path: cypress/reports
           destination: test-results
+      - run:
+          name: Send Email with Test Report
+          command: |
+            npm install nodemailer
+            node send-email.js
+
+workflows:
+  version: 2
+  test-and-build:
+    jobs:
+      - install
+      - test:
+          requires:
+            - install
