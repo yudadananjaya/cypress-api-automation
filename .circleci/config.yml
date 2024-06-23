@@ -13,10 +13,13 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install dependencies
+          name: Update Package Manager (if needed)
           command: |
-            sudo apt-get update
-            sudo apt-get install xvfb
+            apt-get update -y
+      - run:
+          name: Install Xvfb and Dependencies
+          command: |
+            apt-get install -y xvfb
             npm install
 
   test:
