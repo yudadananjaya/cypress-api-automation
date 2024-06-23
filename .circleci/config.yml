@@ -7,17 +7,25 @@ workflows:
   use-my-orb:
     jobs:
       - cypress/run:
-          cypress-command: npm run cypress:run --e2e
+          executor: cypress/base:10
+          steps:
+            - checkout
+            - cypress/run:
+                cypress-command: npm run cypress:run --e2e
 
-      store_artifacts:
-        executor: cypress-executor
-        steps:
-          - store_artifacts:
-              path: cypress/reports
-              destination: test-results
+      - store_artifacts:
+          executor: cypress/base:10
+          steps:
+            - store_artifacts:
+                path: cypress/reports
+                destination: test-results
 
-      - run:
-          name: Send Email with Test Report
-          command: |
-            npm install nodemailer
-            node send-email.js
+      - send-email:
+          executor: cypress/base:10
+          steps:
+            - run:
+                name: Install nodemailer
+                command: npm install nodemailer
+            - run:
+                name: Send Email with Test Report
+                command: node send-email.js
