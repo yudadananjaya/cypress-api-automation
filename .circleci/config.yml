@@ -9,9 +9,12 @@ workflows:
       - cypress/run:
           cypress-command: npm run cypress:run --e2e
 
-      - store_artifacts:
-          path: cypress/reports
-          destination: test-results
+      store_artifacts:
+        executor: cypress-executor
+        steps:
+          - store_artifacts:
+              path: cypress/reports
+              destination: test-results
 
       - run:
           name: Send Email with Test Report
