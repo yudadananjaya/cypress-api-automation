@@ -13,13 +13,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Update Package Manager (if needed)
+          name: Install Xvfb and dependencies
           command: |
-            apt-get update -y
-      - run:
-          name: Install Xvfb and Dependencies
-          command: |
-            apt-get install -y xvfb
+            apt-get update
+            apt-get install -y xvfb libgtk-3-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
             npm install
 
   test:
