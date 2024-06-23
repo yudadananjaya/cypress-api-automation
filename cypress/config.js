@@ -1,6 +1,5 @@
 module.exports = {
-   baseUrl: 'https://reqres.in/api/login',
-   reporter: 'cypress-mochawesome-reporter',
+    reporter: 'cypress-mochawesome-reporter',
     reporterOptions: {
       reportDir: 'cypress/reports',
       reportFilename: 'report',
@@ -8,4 +7,5 @@ module.exports = {
       html: true,
       json: true
     }
-};
+  };
+  
