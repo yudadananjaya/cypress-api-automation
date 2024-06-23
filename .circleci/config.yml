@@ -1,10 +1,40 @@
-version: '2.1'
+version: 2.1
 
-orbs:
-  cypress: cypress-io/cypress@3
+executors:
+  cypress-executor:
+    docker:
+      - image: cypress/base:10
+
+jobs:
+  install:
+    executor: cypress-executor
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+
+  test:
+    executor: cypress-executor
+    steps:
+      - checkout
+      - run:
+          name: Run Cypress tests
+          command: npm run cypress:run
+      - store_artifacts:
+          path: cypress/reports
+          destination: test-results
+      - run:
+          name: Send Email with Test Report
+          command: |
+            npm install nodemailer
+            node send-email.js
 
 workflows:
-  use-my-orb:
+  version: 2
+  test-and-build:
     jobs:
-      - cypress/run:
-          cypress-command: npx cypress run --e2e
+      - install
+      - test:
+          requires:
+            - install
