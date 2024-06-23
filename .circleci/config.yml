@@ -4,6 +4,8 @@ executors:
   cypress-executor:
     docker:
       - image: cypress/base:latest
+        environment:
+          DISPLAY: ":99"
 
 jobs:
   install:
