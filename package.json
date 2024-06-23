@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "npx cypress open"
+    "test": "npx cypress open",
+    "cypress:run": "cypress run",
+    "cypress:open": "cypress open"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +15,8 @@
     "cypress": "^13.12.0"
   },
   "devDependencies": {
-    "cypress-mochawesome-reporter": "^3.8.2"
+    "cypress-mochawesome-reporter": "^3.8.2",
+    "nodemailer": "^6.7.2"
   }
 }
+
