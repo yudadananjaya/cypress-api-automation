@@ -15,23 +15,8 @@ jobs:
 
       # Install Xvfb and necessary dependencies
       - run:
-          name: Install Xvfb and dependencies
-          command: |
-            sudo apt-get update
-            sudo apt-get install -y xvfb libgtk-3-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
-
-      # Start Xvfb and set DISPLAY
-      - run:
-          name: Start Xvfb
-          command: |
-            Xvfb :99 -screen 0 1920x1080x24 &
-            export DISPLAY=:99
-            sleep 3 # Ensure Xvfb has enough time to start
-
-      # Check Xvfb status
-      - run:
-          name: Check Xvfb status
-          command: xdpyinfo -display :99 || true
+          name: Update dependencies
+          command: sudo apt-get update
 
       # Install Cypress
       - run:
@@ -48,7 +33,7 @@ jobs:
           path: cypress/reports
        
           destination: test-results
-          
+
       # Run Email Report Script
       - run:
           name: Send Email with Test Report
