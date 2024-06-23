@@ -11,7 +11,7 @@ workflows:
           steps:
             - checkout
             - cypress/run:
-                cypress-command: npm run cypress:run --e2e
+                command: npm run cypress:run -- --e2e
 
       - store_artifacts:
           executor: cypress/base:10
@@ -20,7 +20,7 @@ workflows:
                 path: cypress/reports
                 destination: test-results
 
-      - send-email:
+      - send_email:
           executor: cypress/base:10
           steps:
             - run:
