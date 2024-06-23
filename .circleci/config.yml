@@ -3,7 +3,7 @@ version: 2.1
 executors:
   cypress-executor:
     docker:
-      - image: cypress/base:latest
+      - image: cypress/base:18.12.1
         environment:
           DISPLAY: ":99"
 
