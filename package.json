@@ -1,22 +1,15 @@
 {
-  "name": "testing-apis-paper-id",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "npx cypress open",
-    "cypress:run": "cypress run",
-    "cypress:open": "cypress open"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "cypress": "^13.12.0"
-  },
-  "devDependencies": {
-    "cypress-mochawesome-reporter": "^3.8.2",
-    "nodemailer": "^6.7.2"
+    "name": "testing-apis-paper-id",
+    "version": "1.0.0",
+    "description": "A project for running Cypress tests with CircleCI",
+    "scripts": {
+      "cypress:run": "cypress run",
+      "cypress:open": "cypress open"
+    },
+    "devDependencies": {
+      "cypress": "^10.0.0",
+      "cypress-mochawesome-reporter": "^2.3.0",
+      "nodemailer": "^6.7.2"
+    }
   }
-}
-
+  

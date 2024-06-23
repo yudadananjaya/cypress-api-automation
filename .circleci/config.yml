@@ -3,7 +3,7 @@ version: 2.1
 executors:
   cypress-executor:
     docker:
-      - image: cypress/base:10
+      - image: cypress/base:node12.18.3
 
 jobs:
   install:
@@ -18,6 +18,9 @@ jobs:
     executor: cypress-executor
     steps:
       - checkout
+      - run:
+          name: Install Cypress
+          command: npm install cypress --save-dev
       - run:
           name: Run Cypress tests
           command: npm run cypress:run
