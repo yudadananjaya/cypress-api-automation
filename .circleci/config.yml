@@ -8,7 +8,7 @@ executors:
           DISPLAY: ":99"
 
 jobs:
-  install-and-test:
+  build-test-env:
     executor: cypress-executor
     steps:
       - checkout
@@ -17,6 +17,11 @@ jobs:
       - run:
           name: Install Cypress
           command: npm install cypress --save-dev
+
+  run-cypress-test:
+    executor: cypress-executor
+    steps:
+      - checkout
 
       # Run Cypress tests
       - run:
@@ -29,15 +34,11 @@ jobs:
        
           destination: test-results
 
-      # Run Email Report Script
-      - run:
-          name: Send Email with Test Report
-          command: |
-            npm install nodemailer
-            node send-email.js
-
 workflows:
   version: 2
-  test-and-build:
+  build-test-env:
     jobs:
-      - install-and-test
+      - build-test-env
+  run-cypress-test:
+    jobs:
+      - run-cypress-test
