@@ -3,9 +3,9 @@ version: 2.1
 executors:
   cypress-executor:
     docker:
-      - image: circleci/node:14.17.0-browsers
+      - image: cypress/browsers:node14.17.0-chrome88-ff89
         environment:
-          DISPLAY: ":99"
+          - DISPLAY=:99
     working_directory: ~/repo
 
 jobs:
@@ -22,21 +22,15 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Stop existing Xvfb if running
-          command: pkill Xvfb || true  # Stop Xvfb if it's already running
-      - run:
           name: Start Xvfb
           command: Xvfb :99 -screen 0 1920x1080x24
-          background: true  # Run Xvfb in the background
+          background: true
       - run:
-          name: Install Cypress
-          command: npm install cypress@13.12.0 --save-dev
-      - run:
-          name: Verify Cypress installation
-          command: npx cypress --version
+          name: Verify installed dependencies
+          command: npm ls --depth=0
       - run:
           name: Run Cypress tests
-          command: npx cypress run --headed  # Run Cypress tests in headed mode for debugging
+          command: npx cypress run --headed
           # For headless mode use: command: npx cypress run --headless
 
   store-test-artifacts:
