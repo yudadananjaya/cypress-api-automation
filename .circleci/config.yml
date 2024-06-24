@@ -3,9 +3,9 @@ version: 2.1
 executors:
   cypress-executor:
     docker:
-      - image: cypress/browsers:node14.17.0-chrome88-ff89
+      - image: circleci/node:14.17.0-browsers
         environment:
-          - DISPLAY=:99.0
+          DISPLAY: ":99"
     working_directory: ~/repo
 
 jobs:
@@ -15,10 +15,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: npm install  # Use npm install to ensure dependencies are correctly installed
-      - run:
-          name: Install Cypress
-          command: npm install cypress@13.12.0 --save-dev
+          command: npm install
 
   run-cypress-test:
     executor: cypress-executor
@@ -26,23 +23,25 @@ jobs:
       - checkout
       - run:
           name: Start Xvfb
-          command: |
-            Xvfb :99 -screen 0 1024x768x24 &
-            export DISPLAY=:99
+          command: Xvfb :99 -screen 0 1920x1080x24
+      - run:
+          name: Install Cypress
+          command: npm install cypress@13.12.0 --save-dev
       - run:
           name: Verify Cypress installation
           command: npx cypress --version
       - run:
           name: Run Cypress tests
-          command: npx cypress run
+          command: npx cypress run --headed  # Run Cypress tests in headed mode for debugging
+          # For headless mode use: command: npx cypress run --headless
 
   store-test-artifacts:
     executor: cypress-executor
     steps:
       - checkout
       - store_artifacts:
-          path: cypress/reports
-          destination: test-results
+          path: cypress/screenshots
+          destination: screenshots
 
 workflows:
   version: 2
