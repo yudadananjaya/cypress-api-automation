@@ -3,9 +3,10 @@ version: 2.1
 executors:
   cypress-executor:
     docker:
-      - image: cypress/base:latest
+      - image: cypress/base:12.5.1
         environment:
-          DISPLAY: ":99"
+          - DISPLAY=:99.0
+    working_directory: ~/repo
 
 jobs:
   build-test-env:
@@ -13,13 +14,24 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install dependencies
+          command: npm ci  # Use npm ci for a clean install based on package-lock.json
+      - run:
           name: Install Cypress
-          command: npm install cypress --save-dev
+          command: npm install cypress@13.12.0 --save-dev
 
   run-cypress-test:
     executor: cypress-executor
     steps:
       - checkout
+      - run:
+          name: Start Xvfb
+          command: |
+            Xvfb :99 -screen 0 1024x768x24 &
+            export DISPLAY=:99
+      - run:
+          name: Verify Cypress installation
+          command: npx cypress --version
       - run:
           name: Run Cypress tests
           command: npx cypress run
