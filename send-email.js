@@ -5,14 +5,14 @@ async function sendEmail() {
   let transporter = nodemailer.createTransport({
     service: 'Gmail', // or your email service
     auth: {
-      user: 'labsyda@gmail.com',
-      pass: 'ydalabs889'
+      user: '',
+      pass: ''
     }
   });
 
   let mailOptions = {
-    from: 'labsyda@gmail.com',
-    to: 'yudananjayaii@gmail.com',
+    from: '',
+    to: '',
     subject: 'Cypress Test Results',
     text: 'Please find the attached test report.',
     attachments: [
