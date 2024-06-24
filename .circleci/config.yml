@@ -23,10 +23,15 @@ jobs:
     steps:
       - checkout
 
-      # Run Cypress tests
+      # Verify Cypress installation
+      - run:
+          name: Verify Cypress installation
+          command: ./node_modules/.bin/cypress --version
+
+      # Ensure Cypress is in PATH and run Cypress tests
       - run:
           name: Run Cypress tests
-          command: npm run cypress:run
+          command: ./node_modules/.bin/cypress run
 
   store-test-artifacts:
     executor: cypress-executor
