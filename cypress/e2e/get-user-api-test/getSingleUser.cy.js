@@ -12,7 +12,7 @@ describe("GET Single Users API Testing", () => {
             // Assert response code
             expect(response.status).to.eq(200);
 
-            // Assert email, first_name, last_name, and avatar value
+            // Assert email, first_name, last_name, and avatar link string value
             expect(response.body.data.email).to.equal(requestBody.email);
             expect(response.body.data.first_name).to.equal(requestBody.first_name);
             expect(response.body.data.last_name).to.equal(requestBody.last_name);
