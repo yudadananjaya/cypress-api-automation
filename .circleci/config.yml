@@ -3,7 +3,7 @@ version: 2.1
 executors:
   cypress-executor:
     docker:
-      - image: circleci/node:14.17.0-browsers
+      - image: cypress/browsers:node14.17.0-chrome88-ff89
         environment:
           DISPLAY: ":99"
     working_directory: ~/repo
@@ -14,10 +14,17 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Update APT Sources
+          command: |
+            sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
+            sed -i '/stretch-updates/d' /etc/apt/sources.list
+            sed -i '/stretch-backports/d' /etc/apt/sources.list
+            echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until
+            apt-get update
+      - run:
           name: Install dependencies
           command: |
-            sudo apt-get update
-            sudo apt-get install -y libnss3
+            apt-get install -y libnss3
             npm install
 
   run-cypress-test:
