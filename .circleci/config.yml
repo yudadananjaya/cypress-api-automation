@@ -3,7 +3,7 @@ version: 2.1
 executors:
   cypress-executor:
     docker:
-      - image: cypress/base:latest
+      - image: cypress/browsers:node16.16.0-chrome100-ff106
         environment:
           - DISPLAY=:99.0
     working_directory: ~/repo
