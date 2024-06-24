@@ -28,10 +28,16 @@ jobs:
           name: Run Cypress tests
           command: npm run cypress:run
 
+  store-test-artifacts:
+    executor: cypress-executor
+    steps:
+      - checkout
+
       # Store Cypress test results as artifacts
       - store_artifacts:
           path: cypress/reports
           destination: test-results
+
 
 workflows:
   version: 2
@@ -41,3 +47,6 @@ workflows:
       - run-cypress-test:
           requires:
             - build-test-env
+            - store-test-artifacts:
+                requires:
+                  - run-cypress-test
