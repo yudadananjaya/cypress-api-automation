@@ -12,36 +12,29 @@ jobs:
     executor: cypress-executor
     steps:
       - checkout
-
-      # Install Cypress
       - run:
           name: Install Cypress
-          command: npm install cypress --save-dev
+          command: npm ci  # Use 'npm ci' for a clean install based on package-lock.json
 
   run-cypress-test:
     executor: cypress-executor
     steps:
       - checkout
-
-      # Verify Cypress installation
       - run:
           name: Verify Cypress installation
-          command: ./node_modules/.bin/cypress --version
-
-      # Ensure Cypress is in PATH and run Cypress tests
+          command: npx cypress --version
       - run:
           name: Run Cypress tests
-          command: ./node_modules/.bin/cypress run
+          command: npx cypress run
 
   store-test-artifacts:
     executor: cypress-executor
     steps:
       - checkout
-
-      # Store Cypress test results as artifacts
       - store_artifacts:
           path: cypress/reports
           destination: test-results
+
 
 workflows:
   version: 2
@@ -51,6 +44,5 @@ workflows:
       - run-cypress-test:
           requires:
             - build-test-env
-      - store-test-artifacts:
-          requires:
-            - run-cypress-test
+            - store-test-artifacts:
+            
