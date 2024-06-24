@@ -3,7 +3,7 @@ version: 2.1
 executors:
   cypress-executor:
     docker:
-      - image: cypress/base:12.5.1
+      - image: cypress/base:latest
         environment:
           - DISPLAY=:99.0
     working_directory: ~/repo
