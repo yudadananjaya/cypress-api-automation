@@ -26,6 +26,7 @@ jobs:
           command: |
             apt-get install -y libnss3
             npm install
+            npm install cypress --save-dev
 
   run-cypress-test:
     executor: cypress-executor
@@ -40,7 +41,7 @@ jobs:
           command: npm ls --depth=0
       - run:
           name: Run Cypress tests
-          command: npx cypress run --headed
+          command: npx cypress run --headless
           # For headless mode use: command: npx cypress run --headless
 
   store-test-artifacts:
