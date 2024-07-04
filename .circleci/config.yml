@@ -39,6 +39,9 @@ jobs:
           name: Verify installed dependencies
           command: npm ls --depth=0
       - run:
+          name: Verify Cypress
+          command: npm install cypress --save-dev
+      - run:
           name: Run Cypress tests
           command: npx cypress run --headless
           # For headless mode use: command: npx cypress run --headless
