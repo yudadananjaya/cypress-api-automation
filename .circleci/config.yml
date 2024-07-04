@@ -26,7 +26,6 @@ jobs:
           command: |
             apt-get install -y libnss3
             npm install
-            npm install cypress --save-dev
 
   run-cypress-test:
     executor: cypress-executor
