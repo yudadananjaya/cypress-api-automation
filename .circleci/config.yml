@@ -41,7 +41,7 @@ jobs:
       - run:
           name: Verify Cypress
           command: npm install cypress --save-dev
-      - rub:
+      - run:
           name: Clear Cache
           command: npx cypress cache clear
       - run:
