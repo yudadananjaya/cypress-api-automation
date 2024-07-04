@@ -42,9 +42,6 @@ jobs:
           name: Verify Cypress
           command: npm install cypress --save-dev
       - run:
-          name: Clear Cache
-          command: npx cypress cache clear
-      - run:
           name: Run Cypress tests
           command: npx cypress run --headed
           # For headless mode use: command: npx cypress run --headless
