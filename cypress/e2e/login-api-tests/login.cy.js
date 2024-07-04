@@ -4,6 +4,7 @@ it("login api test", () => {
       password: "cityslicka",
     };
   
+    // Send request
     cy.request("POST", 'https://reqres.in/api/login', credentials).then(
       (response) => {
         expect(response.status).to.equal(200);
