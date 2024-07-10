@@ -1,0 +1,43 @@
+version: 2.1
+
+executors:
+  cypress-executor:
+    docker:
+      - image: cypress/base:latest
+        environment:
+          DISPLAY: ":99"
+
+jobs:
+  install-and-test:
+    executor: cypress-executor
+    steps:
+      - checkout
+
+      # Install Cypress
+      - run:
+          name: Install Cypress
+          command: npm install cypress --save-dev
+
+      # Run Cypress tests
+      - run:
+          name: Run Cypress tests
+          command: npm run cypress:run
+
+      # Store Cypress test results as artifacts
+      - store_artifacts:
+          path: cypress/reports
+       
+          destination: test-results
+
+      # Run Email Report Script
+      - run:
+          name: Send Email with Test Report
+          command: |
+            npm install nodemailer
+            node send-email.js
+
+workflows:
+  version: 2
+  test-and-build:
+    jobs:
+      - install-and-test

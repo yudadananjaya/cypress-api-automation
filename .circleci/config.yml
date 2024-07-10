@@ -1,10 +1,67 @@
-version: '2.1'
+version: 2.1
 
-orbs:
-  cypress: cypress-io/cypress@3
+executors:
+  cypress-executor:
+    docker:
+      - image: cypress/browsers:node14.17.0-chrome88-ff89
+        environment:
+          DISPLAY: ":99"
+    working_directory: ~/repo
+
+jobs:
+  build-test-env:
+    executor: cypress-executor
+    steps:
+      - checkout
+      - run:
+          name: Update APT Sources
+          command: |
+            sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
+            sed -i '/stretch-updates/d' /etc/apt/sources.list
+            sed -i '/stretch-backports/d' /etc/apt/sources.list
+            echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until
+            apt-get update
+      - run:
+          name: Install dependencies
+          command: |
+            apt-get install -y libnss3
+            npm install
+
+  run-cypress-test:
+    executor: cypress-executor
+    steps:
+      - checkout
+      - run:
+          name: Start Xvfb
+          command: Xvfb :99 -screen 0 1920x1080x24
+          background: true
+      - run:
+          name: Verify installed dependencies
+          command: npm ls --depth=0
+      - run:
+          name: Verify Cypress
+          command: npm install cypress --save-dev
+      - run:
+          name: Run Cypress tests
+          command: npx cypress run --headless
+          # For headed mode use: command: npx cypress run --headed
+
+  store-test-artifacts:
+    executor: cypress-executor
+    steps:
+      - checkout
+      - store_artifacts:
+          path: cypress/screenshots
+          destination: screenshots
 
 workflows:
-  use-my-orb:
+  version: 2
+  build-and-test:
     jobs:
-      - cypress/run:
-          cypress-command: npx cypress run --e2e
+      - build-test-env
+      - run-cypress-test:
+          requires:
+            - build-test-env
+      - store-test-artifacts:
+          requires:
+            - run-cypress-test
