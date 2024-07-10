@@ -43,8 +43,8 @@ jobs:
           command: npm install cypress --save-dev
       - run:
           name: Run Cypress tests
-          command: npx cypress run --headed
-          # For headless mode use: command: npx cypress run --headless
+          command: npx cypress run --headless
+          # For headed mode use: command: npx cypress run --headed
 
   store-test-artifacts:
     executor: cypress-executor
